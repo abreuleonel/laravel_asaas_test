@@ -10,9 +10,9 @@ class PagamentosController extends Controller
 {
     public function boleto(): View {
         $client = new Client();
-        $res = $client->request('POST', 'https://sandbox.asaas.com/api/v3/payments', [
+        $res = $client->request('POST',  env('ASAAS_URI') . '/payments', [
             'headers' => [
-                'access_token' => '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNzQzODg6OiRhYWNoXzg2ZDUyYjk1LWE3MTctNGU2My05MTlkLTViOGNmODViNzRhZA==',
+                'access_token' => env('ASAAS_TOKEN'),
                 'Content-Type' => 'application/json',
                 'Accept' => '*/*',
                 'Connection' => 'keep-alive'
@@ -40,16 +40,15 @@ class PagamentosController extends Controller
 
         $boleto = json_decode($res->getBody()->getContents(), true);
 
-        $dig = $client->request('GET', 'https://sandbox.asaas.com/api/v3/payments/' . $boleto['id'] . '/identificationField', [
+        $dig = $client->request('GET', env('ASAAS_URI') . '/payments/' . $boleto['id'] . '/identificationField', [
             'headers' => [
-                'access_token' => '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNzQzODg6OiRhYWNoXzg2ZDUyYjk1LWE3MTctNGU2My05MTlkLTViOGNmODViNzRhZA==',
+                'access_token' => env('ASAAS_TOKEN'),
                 'Content-Type' => 'application/json',
                 'Accept' => '*/*',
                 'Connection' => 'keep-alive'
             ]
         ]);
 
-        
         $linha_digitavel = json_decode($dig->getBody()->getContents(), true);
 
         return view('pagamentos.boleto', ['boleto' => $boleto, 'linha_digitavel' => $linha_digitavel]);
@@ -57,9 +56,9 @@ class PagamentosController extends Controller
 
     public function pix(): View {
         $client = new Client();
-        $res = $client->request('POST', 'https://sandbox.asaas.com/api/v3/pix/qrCodes/static', [
+        $res = $client->request('POST', env('ASAAS_URI') . '/pix/qrCodes/static', [
             'headers' => [
-                'access_token' => '$aact_YTU5YTE0M2M2N2I4MTliNzk0YTI5N2U5MzdjNWZmNDQ6OjAwMDAwMDAwMDAwMDAwNzQzODg6OiRhYWNoXzg2ZDUyYjk1LWE3MTctNGU2My05MTlkLTViOGNmODViNzRhZA==',
+                'access_token' => env('ASAAS_TOKEN'),
                 'Content-Type' => 'application/json',
                 'Accept' => '*/*',
                 'Connection' => 'keep-alive'
