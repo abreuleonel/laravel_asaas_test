@@ -8,7 +8,7 @@
                         <img title="Boleto Bancário" src="/imgs/pix.png"  style="width: 35px" />
                     </div>
 
-                    <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">Boleto Bancário</h2>
+                    <h2 class="mt-6 text-xl font-semibold text-gray-900 dark:text-white">PIX</h2>
 
                     <p class="mt-4 text-gray-500 dark:text-gray-400 text-sm leading-relaxed" >
                         <img src="data:image/png;base64,<?= $pix['encodedImage'] ?>"  width="30%" alt="QR CODE"/> <br />

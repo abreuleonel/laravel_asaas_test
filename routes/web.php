@@ -21,4 +21,6 @@ Route::get('/', function () {
 Route::controller(PagamentosController::class)->group(function () {
     Route::get('/pagamento/boleto', 'boleto');
     Route::get('/pagamento/pix', 'pix');
+    Route::get('/pagamento/cartao', 'cartao');
+    Route::post('/pagamento/processa_cartao', 'ProcessaCartao');
 });
