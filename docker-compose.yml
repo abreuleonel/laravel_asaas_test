@@ -7,7 +7,7 @@ services:
     container_name: docker_laravel
     restart: always
     ports:
-      - 9002:80
+      - 9002:8000
     volumes:
       - ./:/usr/share/nginx/html
     networks:

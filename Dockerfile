@@ -5,9 +5,8 @@ COPY nginx.conf /etc/nginx/conf.d/default.conf
 
 WORKDIR /usr/share/nginx/html
 
-RUN ln -s public html
 RUN apt-get update && apt-get install vim -y
 
-EXPOSE 80
+CMD php artisan serve --host=0.0.0.0
 
-RUN service nginx restart
+EXPOSE 8000
