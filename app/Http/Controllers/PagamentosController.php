@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
 use GuzzleHttp\Client;
+use App\Models\PaymentModel;
 
 class PagamentosController extends Controller
 {
@@ -51,6 +52,14 @@ class PagamentosController extends Controller
 
         $linha_digitavel = json_decode($dig->getBody()->getContents(), true);
 
+        $payment = new PaymentModel();
+        $payment->type = 'Boleto';
+        $payment->customer_id = $boleto['customer'];
+        $payment->payment_id = $boleto['id'];
+        $payment->value = $boleto['value'];
+        $payment->description = 'Linha digitável: ' . $linha_digitavel['barCode'];
+        $payment->save();
+
         return view('pagamentos.boleto', ['boleto' => $boleto, 'linha_digitavel' => $linha_digitavel]);
     }
 
@@ -71,6 +80,14 @@ class PagamentosController extends Controller
         ]);
 
         $pix = json_decode($res->getBody()->getContents(), true);
+
+        $payment = new PaymentModel();
+        $payment->type = 'PIX';
+        $payment->customer_id = 0;
+        $payment->payment_id = $pix['id'];
+        $payment->value = '150.00';
+        $payment->description = json_encode(['payload' => $pix['payload']]);
+        $payment->save();
 
         return view('pagamentos.pix', ['pix' => $pix]);
     }
@@ -119,7 +136,20 @@ class PagamentosController extends Controller
                     'creditCardToken' => '76496073-536f-4835-80db-c45d00f33695'
                 ]
             ]);
+
             $cartao = json_decode($res->getBody()->getContents(), true);
+
+            $payment = new PaymentModel();
+            $payment->type = 'Cartão de Crédito';
+            $payment->customer_id = $cartao['customer'];
+            $payment->payment_id = $cartao['id'];
+            $payment->value = $cartao['value'];
+            $payment->description = json_encode([
+                'creditCardNumber' => $cartao['creditCard']['creditCardNumber'],
+                'creditCardBrand' => $cartao['creditCard']['creditCardBrand'],
+                'creditCardToken' => $cartao['creditCard']['creditCardToken']]);
+            $payment->save();
+
         } catch(RequestException $e) {
             $cartao = json_decode($e->getMessage(), true);
             
