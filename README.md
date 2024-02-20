@@ -7,3 +7,5 @@
 5. Rodar o comando docker ps e pegar o id referente ao container docker_laravel
 6. Rodar o comando docker exec -it [container_id] bash
 7. Rodar o comando php artisan migrate
+
+Rodar o projeto em http://localhost:9002
