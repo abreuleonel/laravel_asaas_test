@@ -1,4 +1,4 @@
-# laravel_asaas_test
+# Exemplo de integração com Laravel e API Asaas 
 
 1. Abrir o arquivo docker-compose.yml e alterar os dados do Banco MySQL.
 2. Copiar .env.example para .env e alterar também os dados do MySQL neste arquivo. 
