@@ -139,16 +139,18 @@ class PagamentosController extends Controller
 
             $cartao = json_decode($res->getBody()->getContents(), true);
 
-            $payment = new PaymentModel();
-            $payment->type = 'Cartão de Crédito';
-            $payment->customer_id = $cartao['customer'];
-            $payment->payment_id = $cartao['id'];
-            $payment->value = $cartao['value'];
-            $payment->description = json_encode([
-                'creditCardNumber' => $cartao['creditCard']['creditCardNumber'],
-                'creditCardBrand' => $cartao['creditCard']['creditCardBrand'],
-                'creditCardToken' => $cartao['creditCard']['creditCardToken']]);
-            $payment->save();
+            if(isset($cartao['customer'])) {
+                $payment = new PaymentModel();
+                $payment->type = 'Cartão de Crédito';
+                $payment->customer_id = $cartao['customer'];
+                $payment->payment_id = $cartao['id'];
+                $payment->value = $cartao['value'];
+                $payment->description = json_encode([
+                    'creditCardNumber' => $cartao['creditCard']['creditCardNumber'],
+                    'creditCardBrand' => $cartao['creditCard']['creditCardBrand'],
+                    'creditCardToken' => $cartao['creditCard']['creditCardToken']]);
+                $payment->save();
+            }
 
         } catch(RequestException $e) {
             $cartao = json_decode($e->getMessage(), true);
